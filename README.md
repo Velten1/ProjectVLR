@@ -1,4 +1,4 @@
-## Projeto de Aprendizado Full Stack – Quiz de Agentes (Auth API + Frontend)
+## Projeto Full Stack – Quiz de Agentes (Auth API + Frontend)
 
 Aplicação full stack com autenticação via cookie HttpOnly e um mini‑jogo “Adivinhe o Agente do Dia”. Backend em Node.js/Express com Prisma/MySQL; frontend em React/Vite com Tailwind.
 
@@ -136,7 +136,16 @@ yarn build        # build de produção
 yarn preview      # pré-visualização do build
 ```
 
+## Próximos Passos / Funcionalidades Futuras
+- 🎯 **Acertar a skin pelo som da arma** — reprodução de áudio e escolha da skin correta.
+- 🗺 **Mini-game de mapas** — recorte de uma parte do mapa para o jogador identificar.
+- 🕹 **Mais modos de jogo** — ampliar variedade e desafios.
+- 📊 **Sistema de ranking** — leaderboard para comparar pontuações entre usuários.
+
+
 ## Licença
-MIT
+Este projeto está disponível sob a MIT License. Sinta-se livre para usar, estudar, modificar e distribuir, desde que mantenha os devidos créditos.
+
+Obrigado por conferir! Qualquer dúvida ou sugestão, fique à vontade para abrir uma issue ou enviar um pull request. Bons estudos e boa codificação!
 
 

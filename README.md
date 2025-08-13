@@ -135,13 +135,15 @@ yarn dev          # Vite dev server
 yarn build        # build de produção
 yarn preview      # pré-visualização do build
 ```
+## Observações
+Este é um projeto individual desenvolvido com o objetivo de estudar e aprimorar conhecimentos em programação.  
+O código ainda pode conter bugs e pontos a melhorar, e novas funcionalidades serão adicionadas ao longo do tempo.
 
 ## Próximos Passos / Funcionalidades Futuras
 - 🎯 **Acertar a skin pelo som da arma** — reprodução de áudio e escolha da skin correta.
 - 🗺 **Mini-game de mapas** — recorte de uma parte do mapa para o jogador identificar.
 - 🕹 **Mais modos de jogo** — ampliar variedade e desafios.
 - 📊 **Sistema de ranking** — leaderboard para comparar pontuações entre usuários.
-
 
 ## Licença
 Este projeto está disponível sob a MIT License. Sinta-se livre para usar, estudar, modificar e distribuir, desde que mantenha os devidos créditos.

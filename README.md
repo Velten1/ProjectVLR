@@ -1,4 +1,4 @@
-## Projeto Full Stack – Quiz de Agentes (Auth API + Frontend)
+## Projeto de Aprendizado Full Stack – Quiz de Agentes (Auth API + Frontend)
 
 Aplicação full stack com autenticação via cookie HttpOnly e um mini‑jogo “Adivinhe o Agente do Dia”. Backend em Node.js/Express com Prisma/MySQL; frontend em React/Vite com Tailwind.
 

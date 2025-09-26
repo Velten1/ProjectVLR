@@ -4,7 +4,7 @@ Aplicação full stack com autenticação via cookie HttpOnly e um mini‑jogo �
 
 ### Stack
 
-- Backend: Node.js, Express, Prisma, MySQL, JWT, Joi, node-cron
+- Backend: Node.js, Express, Prisma, MySQL/Docker, JWT, Joi, node-cron
 - Frontend: React, Vite, Tailwind CSS, React Router, Axios
 
 ### Estrutura de Pastas

@@ -125,6 +125,53 @@ API base está definida em `src/api/api.js` como `http://localhost:3001/api/`. S
 - `Dashboard.jsx`: navegação principal
 - `GuessAgent.jsx`: jogo “Adivinhe o Agente”
   - Ao acertar, o input é desabilitado e uma mensagem de sucesso é exibida
+- `Profile.jsx`: exibe dados do usuário autenticado e permite logout/alteração de senha
+- `ResetPassword.jsx`: tela para redefinir a senha do usuário
+- `Footer.jsx`: rodapé com links para GitHub e LinkedIn do autor
+
+### Customização Visual
+
+- O projeto utiliza **Tailwind CSS** para estilização rápida e responsiva.
+- Fonte personalizada "Valorant" disponível em `public/fonts/ValorantFont.ttf`.
+- Imagens de fundo e banners em `src/img/`.
+
+### Dependências do Frontend
+
+- `react`, `react-dom`, `react-router-dom`
+- `axios` (requisições HTTP)
+- `react-icons` (ícones)
+- `tailwindcss` (estilização)
+- `@vitejs/plugin-react` (build e dev server)
+- `eslint` (linting)
+
+### Lint e Padronização
+
+- O projeto já vem configurado com ESLint para React.
+- Para rodar o lint:
+  ```bash
+  yarn lint
+  ```
+
+### Observações sobre Autenticação
+
+- O login utiliza cookies HttpOnly para maior segurança.
+- O frontend não armazena tokens no localStorage/sessionStorage.
+
+### Como alterar a URL da API
+
+- A base da API está definida em `src/api/api.js`:
+  ```js
+  baseURL: "http://localhost:3001/api/";
+  ```
+  Altere conforme necessário para apontar para o backend correto.
+
+### Build de Produção
+
+- Para gerar o build de produção:
+  ```bash
+  yarn build
+  ```
+- Os arquivos finais ficam em `dist/` e podem ser servidos por qualquer servidor estático.
 
 ## Dicas e Solução de Problemas
 

@@ -5,7 +5,7 @@ export const getDailyAgent = async () => {
   const startOfDay = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0));
   const endOfDay = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 23, 59, 59, 999));
 
-  const dailyAgent = await prisma.dailyAgent.findFirst({
+  let dailyAgent = await prisma.dailyAgent.findFirst({
     where: {
       date: {
         gte: startOfDay,

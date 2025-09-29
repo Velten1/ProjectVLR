@@ -29,7 +29,8 @@ export const register = async (req, res) => {
     const response = await registerUser(name, email, password);
     return res.status(response.status).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Erro interno do servidor' });
+    console.error('Erro no registro:', error);
+    res.status(500).json({ message: 'Erro interno do servidor', error: error.message });
   }
 };
 
@@ -54,7 +55,8 @@ export const login = async (req, res) => {
 
     return res.status(200).json(response.data);
   } catch (error) {
-    res.status(500).json({ message: 'Erro interno do servidor' });
+    console.error('Erro no login:', error);
+    res.status(500).json({ message: 'Erro interno do servidor', error: error.message });
   }
 };
 

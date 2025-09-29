@@ -1,221 +1,272 @@
-<<<<<<< HEAD
+# 🎮 Valorant Quiz - Projeto Full Stack
 
-## Projeto Full Stack – Quiz de Agentes (API + Frontend)
+Um jogo interativo "Adivinhe o Agente" baseado no universo de Valorant, desenvolvido com Node.js, React e MySQL.
 
-Aplicação full stack com autenticação via cookie HttpOnly e um mini‑jogo “Adivinhe o Agente do Dia”. Backend em Node.js/Express com Prisma/MySQL; frontend em React/Vite com Tailwind.
+![Valorant Quiz](https://img.shields.io/badge/Valorant-Quiz-red?style=for-the-badge&logo=valorant)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
-### Stack
+## 📋 Sobre o Projeto
 
-- Backend: Node.js, Express, Prisma, MySQL/Docker, JWT, Joi, node-cron
-- Frontend: React, Vite, Tailwind CSS, React Router, Axios
+Este é um projeto full stack que combina autenticação segura com um mini-jogo divertido. Os jogadores podem se cadastrar, fazer login e testar seus conhecimentos sobre os agentes do Valorant tentando adivinhar qual é o "Agente do Dia".
 
-### Estrutura de Pastas
+### ✨ Funcionalidades
 
+- 🔐 **Sistema de Autenticação Completo**
+  - Registro de usuários
+  - Login com cookies HttpOnly (seguro)
+  - Perfil do usuário
+  - Redefinição de senha
+  - Logout seguro
+
+- 🎯 **Mini-Jogo "Adivinhe o Agente"**
+  - Agente do dia escolhido aleatoriamente
+  - Feedback visual para acertos/erros
+  - Dicas sobre gênero, função e ano de lançamento
+  - Troca automática do agente à meia-noite
+
+- 🎨 **Interface Moderna**
+  - Design responsivo com Tailwind CSS
+  - Fonte personalizada do Valorant
+  - Animações suaves
+  - Backgrounds temáticos
+
+## 🛠️ Stack Tecnológica
+
+### Backend
+- **Node.js** - Runtime JavaScript
+- **Express.js** - Framework web
+- **Prisma** - ORM para banco de dados
+- **MySQL** - Banco de dados relacional
+- **JWT** - Autenticação com tokens
+- **bcryptjs** - Criptografia de senhas
+- **node-cron** - Agendamento de tarefas
+- **Joi** - Validação de dados
+
+### Frontend
+- **React 19** - Biblioteca de interface
+- **Vite** - Build tool e dev server
+- **React Router** - Roteamento
+- **Tailwind CSS** - Framework CSS
+- **Axios** - Cliente HTTP
+- **React Icons** - Ícones
+
+### Banco de Dados
+- **MySQL 8.0** - Banco de dados principal
+- **Docker** - Containerização do MySQL
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+
+- Node.js 18+ 
+- MySQL 8+ (ou Docker)
+- Yarn (gerenciador de pacotes)
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/seu-usuario/valorant-quiz.git
+cd valorant-quiz
 ```
-api/                # Backend (Express + Prisma)
-  src/
-    config/             # Prisma e DB
-    controllers/        # Controllers (auth, quiz)
-    middleware/         # Auth middleware
-    repositories/       # Prisma repositories
-    routes/             # Rotas Express
-    services/           # Regras de negócio
-    scheduler.js        # Tarefa diária do agente do dia
-    index.js            # Bootstrap do servidor
-  prisma/
-    schema.prisma       # Schema Prisma (User, Agent, DailyAgent)
-    seed.js             # Seed de agentes
 
-frontend/frontend/       # Frontend (React + Vite)
-  src/
-    api/api.js          # Axios base (http://localhost:3001/api/)
-    components/         # Telas/Componentes (Login, Register, Dashboard, GuessAgent)
-    service/            # Serviços (authService, quizService)
-```
-
-## Requisitos
-
-- Node.js 18+
-- MySQL 8+
-
-## Backend (api)
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` dentro de `api/` com:
-
-```env
-DATABASE_URL="mysql://USER:PASS@localhost:3306/NOME_DO_BANCO"
-JWT_SECRET="uma_chave_secreta_segura"
-# Opcional
-PORT=3001
-```
-
-Obs.: o CORS está configurado para `http://localhost:5173`. Ajuste em `src/index.js` se necessário.
-
-### Instalação e Banco de Dados
+### 2. Configure o Backend
 
 ```bash
 cd api
 
-# Instalar deps
+# Instale as dependências
 yarn install
 
-# Criar/atualizar schema no banco (use UMA das opções)
-yarn db:push           # aplica o schema atual diretamente
-# ou
-yarn migrate           # gera/aplica migrações (ambiente dev)
+# Configure as variáveis de ambiente
+# Crie um arquivo .env na pasta api/ com:
+DATABASE_URL="mysql://root:sua_senha@localhost:3306/valorant_quiz"
+JWT_SECRET="sua_chave_secreta_super_segura_aqui"
+PORT=3002
 
-# Popular tabela de agentes
+# Configure o banco de dados
+yarn db:push
+
+# Popule com os agentes
 yarn seed
 
-# (Opcional) Inspecionar dados com Prisma Studio
-yarn studio
-```
-
-### Rodar em desenvolvimento
-
-```bash
-cd api
+# Inicie o servidor
 yarn dev
-# Servidor em: http://localhost:3001
 ```
 
-### Endpoints
-
-Base URL: `http://localhost:3001/api`
-
-- Auth (`/auth`)
-
-  - `GET /auth/me` (autenticado): informações do usuário
-  - `POST /auth/register` { name, email, password }
-  - `POST /auth/login` { email, password } → seta cookie `token` HttpOnly
-  - `POST /auth/logout` (autenticado)
-  - `POST /auth/reset-password` (autenticado) { email, password, newPassword }
-  - `DELETE /auth/delete-user` (autenticado) { email, password, confirmPassword }
-  - `PUT /auth/update-user` (autenticado) { email, newEmail, password }
-  - `PUT /auth/update-name` (autenticado) { name }
-
-- Quiz (`/quiz`)
-  - `GET /quiz/daily` → agente do dia atual { id, name }
-  - `POST /quiz/guessAgent` { agentName }
-    - Response: `{ status, message, guessResult: { correct, role, gender, year } }`
-
-### Agente do Dia (scheduler)
-
-- `src/scheduler.js` executa diariamente (00:00) para limpar e definir um novo agente do dia.
-- Em `repositories/quiz.repository.js`, `getDailyAgent()` garante que exista um agente do dia, criando se necessário.
-
-## Frontend (frontend/frontend)
-
-### Instalação e Desenvolvimento
+### 3. Configure o Frontend
 
 ```bash
 cd frontend/frontend
+
+# Instale as dependências
 yarn install
+
+# Inicie o servidor de desenvolvimento
 yarn dev
-# App em: http://localhost:5173
 ```
 
-API base está definida em `src/api/api.js` como `http://localhost:3001/api/`. Se o backend rodar em outra porta/host, ajuste este arquivo.
+### 4. Acesse a aplicação
 
-### Principais Telas/Fluxos
+- **Frontend:** http://localhost:5173
+- **API:** http://localhost:3002
+- **Prisma Studio:** `yarn studio` (na pasta api/)
 
-- `LoginForm.jsx` e `RegisterForm.jsx`: autenticação via cookie HttpOnly
-- `Dashboard.jsx`: navegação principal
-- `GuessAgent.jsx`: jogo “Adivinhe o Agente”
-  - Ao acertar, o input é desabilitado e uma mensagem de sucesso é exibida
-- `Profile.jsx`: exibe dados do usuário autenticado e permite logout/alteração de senha
-- `ResetPassword.jsx`: tela para redefinir a senha do usuário
-- `Footer.jsx`: rodapé com links para GitHub e LinkedIn do autor
+## 🐳 Usando Docker (MySQL)
 
-### Customização Visual
-
-- O projeto utiliza **Tailwind CSS** para estilização rápida e responsiva.
-- Fonte personalizada "Valorant" disponível em `public/fonts/ValorantFont.ttf`.
-- Imagens de fundo e banners em `src/img/`.
-
-### Dependências do Frontend
-
-- `react`, `react-dom`, `react-router-dom`
-- `axios` (requisições HTTP)
-- `react-icons` (ícones)
-- `tailwindcss` (estilização)
-- `@vitejs/plugin-react` (build e dev server)
-- `eslint` (linting)
-
-### Lint e Padronização
-
-- O projeto já vem configurado com ESLint para React.
-- Para rodar o lint:
-  ```bash
-  yarn lint
-  ```
-
-### Observações sobre Autenticação
-
-- O login utiliza cookies HttpOnly para maior segurança.
-- O frontend não armazena tokens no localStorage/sessionStorage.
-
-### Como alterar a URL da API
-
-- A base da API está definida em `src/api/api.js`:
-  ```js
-  baseURL: "http://localhost:3001/api/";
-  ```
-  Altere conforme necessário para apontar para o backend correto.
-
-### Build de Produção
-
-- Para gerar o build de produção:
-  ```bash
-  yarn build
-  ```
-- Os arquivos finais ficam em `dist/` e podem ser servidos por qualquer servidor estático.
-
-## Dicas e Solução de Problemas
-
-- Se o CORS falhar, confirme a origem em `api/src/index.js`.
-- Confirme `.env` e acesso ao MySQL (usuário, senha, schema).
-- Se não houver agentes, rode `yarn seed` no backend.
-- Para validar o “agente do dia”: `GET http://localhost:3001/api/quiz/daily`.
-
-## Scripts úteis
-
-Backend:
+Se preferir usar Docker para o MySQL:
 
 ```bash
-yarn dev          # roda servidor em desenvolvimento
-yarn start        # roda servidor em produção (node)
-yarn db:push      # aplica schema ao banco
-yarn migrate      # migrações (dev)
-yarn seed         # popula agentes
-yarn studio       # Prisma Studio
+# Execute o MySQL em container
+docker run --name mysql-valorant \
+  -e MYSQL_ROOT_PASSWORD=sua_senha \
+  -e MYSQL_DATABASE=valorant_quiz \
+  -p 3306:3306 \
+  -d mysql:8.0
+
+# Configure o .env com:
+DATABASE_URL="mysql://root:sua_senha@localhost:3306/valorant_quiz"
 ```
 
-Frontend:
+## 📚 Estrutura do Projeto
 
+```
+valorant-quiz/
+├── api/                    # Backend (Node.js + Express)
+│   ├── src/
+│   │   ├── config/         # Configurações (Prisma, DB)
+│   │   ├── controllers/    # Controllers (auth, quiz)
+│   │   ├── middleware/     # Middleware de autenticação
+│   │   ├── repositories/   # Camada de acesso a dados
+│   │   ├── routes/         # Rotas da API
+│   │   ├── services/       # Lógica de negócio
+│   │   ├── scheduler.js    # Tarefa diária (node-cron)
+│   │   └── index.js        # Ponto de entrada
+│   ├── prisma/
+│   │   ├── schema.prisma   # Schema do banco
+│   │   └── seed.js         # Dados iniciais
+│   └── package.json
+├── frontend/frontend/      # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/     # Componentes React
+│   │   ├── api/           # Configuração Axios
+│   │   ├── service/       # Serviços (auth, quiz)
+│   │   └── App.jsx        # Componente principal
+│   └── package.json
+└── README.md
+```
+
+## 🔧 Scripts Disponíveis
+
+### Backend (api/)
 ```bash
-yarn dev          # Vite dev server
-yarn build        # build de produção
-yarn preview      # pré-visualização do build
+yarn dev          # Servidor de desenvolvimento
+yarn start        # Servidor de produção
+yarn db:push      # Aplica schema ao banco
+yarn migrate      # Executa migrações
+yarn seed         # Popula banco com agentes
+yarn studio       # Interface visual do Prisma
 ```
 
-## Observações
+### Frontend (frontend/frontend/)
+```bash
+yarn dev          # Servidor de desenvolvimento
+yarn build        # Build de produção
+yarn preview      # Preview do build
+yarn lint         # Verificação de código
+```
 
-Este é um projeto individual desenvolvido com o objetivo de estudar e aprimorar conhecimentos em programação.  
-O código ainda pode conter bugs e pontos a melhorar, e novas funcionalidades serão adicionadas ao longo do tempo.
+## 🌐 Endpoints da API
 
-## Próximos Passos / Funcionalidades Futuras
+Base URL: `http://localhost:3002/api`
 
-- 🎯 **Acertar a skin pelo som da arma** — reprodução de áudio e escolha da skin correta.
-- 🗺 **Mini-game de mapas** — recorte de uma parte do mapa para o jogador identificar.
-- 🕹 **Mais modos de jogo** — ampliar variedade e desafios.
-- 📊 **Sistema de ranking** — leaderboard para comparar pontuações entre usuários.
-- 🔧 **Painel administrativo** - Área restrita (com token de admin) para gerenciamento do jogo, incluindo adição de novos personagens ao banco de dados.
+### Autenticação (`/auth`)
+- `GET /auth/me` - Informações do usuário (autenticado)
+- `POST /auth/register` - Registro de usuário
+- `POST /auth/login` - Login (define cookie HttpOnly)
+- `POST /auth/logout` - Logout (remove cookie)
+- `POST /auth/reset-password` - Redefinir senha
 
-## Licença
+### Quiz (`/quiz`)
+- `GET /quiz/daily` - Agente do dia atual
+- `POST /quiz/guessAgent` - Tentar adivinhar o agente
 
-Este projeto está disponível sob a MIT License. Sinta-se livre para usar, estudar, modificar e distribuir, desde que mantenha os devidos créditos.
+## 🎮 Como Jogar
 
-Obrigado por conferir! Qualquer dúvida ou sugestão, fique à vontade para abrir uma issue ou enviar um pull request. Bons estudos e boa codificação!
+1. **Acesse** http://localhost:5173
+2. **Cadastre-se** ou faça login
+3. **Clique** em "Adivinhe o Agente!"
+4. **Digite** o nome de um agente
+5. **Receba dicas** sobre gênero, função e ano
+6. **Continue tentando** até acertar!
+
+## 🔒 Segurança
+
+- **Cookies HttpOnly** para tokens JWT
+- **Senhas criptografadas** com bcrypt
+- **Validação de dados** com Joi
+- **CORS configurado** adequadamente
+- **Variáveis de ambiente** para dados sensíveis
+
+## 🎨 Customização
+
+### Cores e Temas
+O projeto usa Tailwind CSS com cores personalizadas do Valorant.
+
+### Fonte
+Fonte personalizada "Valorant" disponível em `public/fonts/ValorantFont.ttf`.
+
+### Imagens
+Backgrounds e assets em `src/img/`.
+
+## 🐛 Solução de Problemas
+
+### Erro de Porta Ocupada
+```bash
+# Mate processos Node.js
+Get-Process | Where-Object {$_.ProcessName -like "*node*"} | Stop-Process -Force
+```
+
+### Erro de Conexão com Banco
+- Verifique se o MySQL está rodando
+- Confirme as credenciais no `.env`
+- Teste a conexão: `yarn studio`
+
+### Erro de Variáveis de Ambiente
+- Certifique-se de que o `.env` está na pasta `api/`
+- Reinicie o servidor após mudanças
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Próximas Funcionalidades
+
+- 🎵 **Adivinhe pela voz** - Reconhecimento de áudio das armas
+- 🗺️ **Mini-game de mapas** - Identificar locais do jogo
+- 📊 **Sistema de ranking** - Leaderboard global
+- 🔧 **Painel administrativo** - Gerenciar agentes
+- 🏆 **Sistema de conquistas** - Badges e recompensas
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## ⚠️ Aviso Legal
+
+Este é um projeto de fã não oficial. A Riot Games não endossa ou patrocina este projeto. Valorant é uma marca registrada da Riot Games.
+
+## 👨‍💻 Autor
+
+**Caio Velten**
+- GitHub: [@Velten1](https://github.com/Velten1)
+- LinkedIn: [Caio Velten](https://www.linkedin.com/in/caio-velten-1351b22b7/)
+
+---
+
+⭐ **Se este projeto te ajudou, considere dar uma estrela!** ⭐

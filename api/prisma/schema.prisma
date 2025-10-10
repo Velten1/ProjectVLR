@@ -28,6 +28,7 @@ model Agent {
   updatedAt    DateTime      @updatedAt
 
   dailyAgents  DailyAgent[]  // 1:N
+  quotes       Quote[]       // 1:N
 }
 
 model DailyAgent {
@@ -39,3 +40,24 @@ model DailyAgent {
 
   @@unique([agentId, date])  // único por agente+dia
 }
+model Quote {
+  id        String   @id @default(uuid())
+  text      String   @db.VarChar(500)
+  agentId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  dailyQuotes DailyQuote[] // 1:N
+}
+
+model DailyQuote {
+  id        String   @id @default(uuid())
+  quoteId   String
+  date      DateTime
+
+  quote     Quote    @relation(fields: [quoteId], references: [id])
+
+  @@unique([quoteId, date])  // único por frase+dia
+}
+

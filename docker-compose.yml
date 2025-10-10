@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    container_name: projectvlr_api
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: projectvlr_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projectvlr
+      MYSQL_USER: projectuser
+      MYSQL_PASSWORD: projectpass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

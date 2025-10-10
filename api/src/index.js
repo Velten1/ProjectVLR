@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import quizRoutes from './routes/quiz.routes.js';
+import quotesRoutes from './routes/quotes.routes.js'
 import './scheduler.js';
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
+app.use('/api/quotes', quotesRoutes);
 
 const PORT = process.env.PORT || 3002;
 

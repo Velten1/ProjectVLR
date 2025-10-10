@@ -15,6 +15,7 @@ const agents = [
   { name: 'Reyna', role: 'Duelist', gender: 'Female', year: 2020 },
   { name: 'Killjoy', role: 'Sentinel', gender: 'Female', year: 2020 },
   { name: 'Skye', role: 'Initiator', gender: 'Female', year: 2020 },
+  { name: 'Breach', role: 'Initiator', gender: 'Male', year: 2020 },
   { name: 'Yoru', role: 'Duelist', gender: 'Male', year: 2021 },
   { name: 'Astra', role: 'Controller', gender: 'Female', year: 2021 },
   { name: 'KAY/O', role: 'Initiator', gender: 'Male', year: 2021 },
@@ -26,12 +27,21 @@ const agents = [
   { name: 'Deadlock', role: 'Sentinel', gender: 'Female', year: 2023 },
   { name: 'Iso', role: 'Duelist', gender: 'Male', year: 2023 },
   { name: 'Clove', role: 'Controller', gender: 'Female', year: 2024 },
+  { name: 'Vyse', role: 'Sentinel', gender: 'Female', year: 2024},
+  { name: 'Tejo', role: 'Initiator', gender: 'Male', year: 2025},
+  { name: 'Waylay', role: 'Duelist', gender: 'Female', year: 2025},
 ];
 
 async function main() {
   console.log('🌱 Iniciando seed do banco de dados...');
 
   // Limpar tabelas relacionadas primeiro
+  await prisma.dailyQuote.deleteMany();
+  console.log('🗑️ DailyQuotes removidas');
+  
+  await prisma.quote.deleteMany();
+  console.log('🗑️ Frases removidas');
+  
   await prisma.dailyAgent.deleteMany();
   console.log('🗑️ DailyAgents removidos');
 
@@ -47,6 +57,7 @@ async function main() {
   }
 
   console.log(`✅ ${agents.length} agentes inseridos com sucesso!`);
+  console.log(`✅ Frases inseridas para agentes com frases!`);
 }
 
 main()

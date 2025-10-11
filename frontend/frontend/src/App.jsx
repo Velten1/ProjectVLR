@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import GuessAgent from "./components/GuessAgent";
 import ResetPassword from "./components/ResetPassword";
 import Profile from "./components/Profile";
+import GuessQuote from "./components/GuessQuote";
 
 function App() {
   return (
@@ -77,6 +78,16 @@ function App() {
               </div>
             }
           />
+          <Route
+            path="/guessquote"
+            element={
+              <div className="flex flex-col flex-grow">
+                <main className="flex-grow justify-center">
+                  <GuessQuote/>
+                </main>
+              </div>
+            }
+          />          
         </Routes>
       </div>
     </Router>

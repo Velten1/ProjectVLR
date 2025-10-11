@@ -26,7 +26,7 @@ export const registerUser = async (name, email, password) => {
 
   const existingUser = await findUserByEmail(email);
   if (existingUser) {
-    return { status: 409, message: 'Email já cadastrado!' };
+    return { status: 400, message: 'Email já cadastrado!' };
   }
 
   const salt = await bcrypt.genSalt(10);

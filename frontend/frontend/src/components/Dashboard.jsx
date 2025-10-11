@@ -40,11 +40,22 @@ function Dashboard() {
           </button>
         </div>
 
+        <div className="bg-white/20 backdrop-blur-md rounded-xl mt-2 shadow-custom sm:w-[350px] flex items-center justify-center">
+          <button
+            type="button"
+            onClick={() => navigate("/guessQuote")}
+            className="relative overflow-hidden bg-black text-white font-bold mt-1 mb-1 rounded-lg sm:w-[340px] sm:h-[110px] transition-all duration-500 flex items-center justify-center border-2 border-gray-500 hover:border-red-500 before:absolute before:top-0 before:right-0 before:w-0 before:h-full before:bg-red-500 before:transition-all before:duration-500 hover:before:w-full hover:before:left-0 before:z-0 hover:shadow-[0_0_25px_rgba(255,0,0,1)]"
+            style={{ fontFamily: "Valorant, sans-serif" }}
+          >
+            <span className="relative z-10">Adivinhe a Frase!</span>
+          </button>
+        </div>
+
         <div className="absolute flex mb-60 left-20">
           <button
             type="button"
             onClick={() => setOpenMenu(!openMenu)}
-            className="bg-gray-500 hover:bg-gray-300 transition-all duration-300 ml-1"
+            className="bg-gray-500 hover:bg-gray-300 transition-all duration-300 ml-1 mb-20"
           >
             <FaUser className="text-black text-lg" />
           </button>

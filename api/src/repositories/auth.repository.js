@@ -2,7 +2,7 @@ import prisma from '../config/prisma.js';
 import jwt from 'jsonwebtoken';
 
 export const findUserByEmail = async (email) => {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({ 
     where: {
       email,
     },

@@ -14,7 +14,8 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3",
-    "prisma": "^6.4.1"
+    "prisma": "^6.4.1",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
@@ -22,13 +23,15 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "generate": "prisma generate",
     "migrate": "prisma migrate dev --name init",
     "db:push": "prisma db push",
-    "seed": "prisma db seed",
+    "seed": "node prisma/seed.js",
+    "seed:quotes": "node prisma/seed-with-quotes.js",
     "studio": "prisma studio"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed-with-quotes.js"
   },
   "packageManager": "yarn@4.7.0+sha512.5a0afa1d4c1d844b3447ee3319633797bcd6385d9a44be07993ae52ff4facabccafb4af5dcd1c2f9a94ac113e5e9ff56f6130431905884414229e284e37bb7c9"
 }

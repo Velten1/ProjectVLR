@@ -16,6 +16,8 @@ model User {
   createdAt DateTime @default(now())
   updateAt  DateTime @default(now()) @updatedAt
   status    String   @default("active")
+
+  userDailyProgress UserDailyProgress[] // 1:N
 }
 
 model Agent {
@@ -61,3 +63,17 @@ model DailyQuote {
   @@unique([quoteId, date])  // único por frase+dia
 }
 
+//create table to store daily user progress
+model UserDailyProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  gameType  String   @db.VarChar(20) // 'agent' or 'quote'
+  date      DateTime
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, gameType, date])  // unique by user+gameType+date
+}

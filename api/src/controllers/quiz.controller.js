@@ -1,15 +1,31 @@
 import { checkGuess } from "../services/quiz.service.js";
 import { getDailyAgent as getDailyAgentRepo } from "../repositories/quiz.repository.js";
+import { checkIfUserAlreadyCompletedService, markUserProgressAsCompleted } from "../services/iscorrect.service.js";
 
 export const guessAgent = async (req, res) => {
   try {
+    const userId = req.userId; // Vem do authMiddleware
     const { agentName } = req.body;
 
     if (!agentName) {
       return res.status(400).json({ message: "O nome de um agente é obrigatório!" });
     }
 
+    // Verificar se o usuário já completou o jogo hoje
+    const progressCheck = await checkIfUserAlreadyCompletedService(userId, 'agent');
+    if (progressCheck.completed) {
+      return res.status(progressCheck.status).json(progressCheck);
+    }
+
+    // Processar o palpite
     const response = await checkGuess(agentName);
+    
+    // Se acertou, marcar como completado
+    if (response.status === 200 && response.guessResult?.correct) {
+      await markUserProgressAsCompleted(userId, 'agent');
+      response.message = "🎉 Parabéns! Você acertou e completou o desafio de hoje!";
+    }
+
     return res.status(response.status).json(response);
   } catch (error) {
     console.log(error)

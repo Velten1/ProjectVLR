@@ -37,6 +37,20 @@ export const generateToken = (userId) => {
   return token;
 };
 
+export const generateRefreshToken = (userId) => {
+  const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET, { expiresIn: '7d' });
+  return refreshToken;
+};
+
+export const verifyRefreshToken = (refreshToken) => {
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const updateUserPassword = async (id, newPassword) => {
   await prisma.user.update({
     where: { id: id },

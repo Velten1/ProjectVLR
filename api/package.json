@@ -28,7 +28,9 @@
     "db:push": "prisma db push",
     "seed": "node prisma/seed.js",
     "seed:quotes": "node prisma/seed-with-quotes.js",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "reset:daily": "node src/scripts/reset-daily.js",
+    "reset:progress": "node src/scripts/reset-progress.js"
   },
   "prisma": {
     "seed": "node prisma/seed-with-quotes.js"

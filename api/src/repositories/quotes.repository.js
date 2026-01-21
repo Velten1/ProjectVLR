@@ -69,3 +69,26 @@ export const getQuoteByName = async (agentName) => {
     where: { name: agentName }
   });
 };
+
+/**
+ * Busca outras frases do mesmo agente, excluindo as já mostradas
+ * @param {string} agentId - ID do agente
+ * @param {string[]} excludedQuoteIds - IDs das frases já mostradas
+ * @returns {Promise<Object|null>} Nova frase do mesmo agente ou null se não houver mais
+ */
+export const getAnotherQuoteFromAgent = async (agentId, excludedQuoteIds = []) => {
+  const quotes = await prisma.quote.findMany({
+    where: {
+      agentId: agentId,
+      id: {
+        notIn: excludedQuoteIds.length > 0 ? excludedQuoteIds : undefined,
+      },
+    },
+    include: {
+      agent: true,
+    },
+    take: 1,
+  });
+
+  return quotes.length > 0 ? quotes[0] : null;
+};

@@ -7,3 +7,7 @@ export const guessQuote = async (userData) => {
 export const getDailyQuote = async () => {
     return await api.get("quotes/dailyquote")
 }
+
+export const revealAnswer = async () => {
+    return await api.get("quotes/reveal")
+}

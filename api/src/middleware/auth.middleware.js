@@ -14,7 +14,20 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Token inválido' });
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ 
+        message: 'Token expirado', 
+        expired: true,
+        code: 'TOKEN_EXPIRED'
+      });
+    }
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({ 
+        message: 'Token inválido',
+        code: 'TOKEN_INVALID'
+      });
+    }
+    return res.status(401).json({ message: 'Token inválido', code: 'TOKEN_ERROR' });
   }
 };
 

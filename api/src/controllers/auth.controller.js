@@ -6,6 +6,7 @@ import {
   resetuserPassword,
   updatetheUser,
   updatetheName,
+  refreshTokenService,
 } from '../services/auth.service.js';
 
 export const getUserInfo = async (req, res) => {
@@ -50,7 +51,14 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: 'strict',
-      maxAge: 360000,
+      maxAge: 3600000, // 1 hora
+    });
+
+    res.cookie('refreshToken', response.data.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 604800000, // 7 dias
     });
 
     return res.status(200).json(response.data);
@@ -129,5 +137,41 @@ export const updateName = async (req, res) => {
     return res.status(response.status).json(response);
   } catch (error) {
     res.status(500).json({ message: 'Erro interno do servidor' });
+  }
+};
+
+export const refreshToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken || req.body.refreshToken || req.headers['x-refresh-token'];
+    
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'Refresh token não fornecido' });
+    }
+
+    const response = await refreshTokenService(refreshToken);
+    
+    if (response.status !== 200) {
+      return res.status(response.status).json(response);
+    }
+
+    // Atualiza os cookies
+    res.cookie('token', response.data.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 3600000, // 1 hora
+    });
+
+    res.cookie('refreshToken', response.data.refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 604800000, // 7 dias
+    });
+
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Erro ao renovar token:', error);
+    res.status(500).json({ message: 'Erro interno do servidor', error: error.message });
   }
 };

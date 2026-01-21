@@ -13,13 +13,23 @@ export const checkGuess = async (agentName) => {
 
   const result = {
     correct: guessedAgent.name === dailyAgent.name,
-    role: guessedAgent.role === dailyAgent.role ? "✅" : "❌",
-    gender: guessedAgent.gender === dailyAgent.gender ? "✅" : "❌",
-    year: guessedAgent.year === dailyAgent.year 
-      ? "✅" 
-      : guessedAgent.year < dailyAgent.year 
-        ? "⬆️ Mais recente" 
-        : "⬇️ Mais antigo",
+    role: {
+      value: guessedAgent.role,
+      correct: guessedAgent.role === dailyAgent.role
+    },
+    gender: {
+      value: guessedAgent.gender,
+      correct: guessedAgent.gender === dailyAgent.gender
+    },
+    year: {
+      value: guessedAgent.year,
+      correct: guessedAgent.year === dailyAgent.year,
+      hint: guessedAgent.year === dailyAgent.year 
+        ? null 
+        : guessedAgent.year < dailyAgent.year 
+          ? "Mais recente" 
+          : "Mais antigo"
+    },
   };
 
   return {

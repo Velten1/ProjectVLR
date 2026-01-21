@@ -6,6 +6,8 @@ import {
   findUserById,
   updatedeleteUser,
   generateToken,
+  generateRefreshToken,
+  verifyRefreshToken,
   updateEmail,
   updateUsername,
 } from '../repositories/auth.repository.js';
@@ -49,7 +51,35 @@ export const loginUser = async (email, password) => {
   }
 
   const token = generateToken(user.id);
-  return { status: 200, data: { token, user } };
+  const refreshToken = generateRefreshToken(user.id);
+  return { status: 200, data: { token, refreshToken, user } };
+};
+
+export const refreshTokenService = async (refreshToken) => {
+  if (!refreshToken) {
+    return { status: 401, message: 'Refresh token não fornecido' };
+  }
+
+  const decoded = verifyRefreshToken(refreshToken);
+  if (!decoded) {
+    return { status: 401, message: 'Refresh token inválido ou expirado' };
+  }
+
+  const user = await findUserById(decoded.userId);
+  if (!user) {
+    return { status: 404, message: 'Usuário não encontrado' };
+  }
+
+  const newToken = generateToken(user.id);
+  const newRefreshToken = generateRefreshToken(user.id);
+  
+  return { 
+    status: 200, 
+    data: { 
+      token: newToken, 
+      refreshToken: newRefreshToken 
+    } 
+  };
 };
 
 export const resetuserPassword = async (email, password, newPassword) => {

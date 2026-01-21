@@ -8,6 +8,7 @@ import {
   updateUser,
   updateName,
   logout,
+  refreshToken,
 } from '../controllers/auth.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get('/me', authMiddleware, getUserInfo);
 router.post('/register', register);
 router.post('/login', login);
+router.post('/refresh', refreshToken);
 router.post('/logout', authMiddleware, logout);
 router.post('/reset-password', authMiddleware, resetPassword);
 router.delete('/delete-user', authMiddleware, deleteUser);
